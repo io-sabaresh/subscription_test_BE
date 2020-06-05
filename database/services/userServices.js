@@ -1,15 +1,17 @@
 "use script";
 const User = require("../models/Users");
+const { DEFAULT_SUPER_ADMIN,
+  DEFAULT_SUPER_ADMIN_PASSWORD } = require("../../constants");
 
 const createSuperAdmin = async () => {
   try {
     return await User.findOneAndUpdate(
-      { email: "io.sabaresh@gmail.com" },
+      { email: DEFAULT_SUPER_ADMIN },
       {
         firstName: "SuperAdmin",
         lastName: "Sabaresh",
-        email: "io.sabaresh@gmail.com",
-        password: "sabareshRaja11",
+        email: DEFAULT_SUPER_ADMIN,
+        password: DEFAULT_SUPER_ADMIN_PASSWORD,
         userType: "super-admin",
       },
       {
@@ -21,9 +23,17 @@ const createSuperAdmin = async () => {
   }
 };
 
-const getUserByEmail = async (email) => {
+const createNewUser = async (newUser) => {
   try {
-    return await User.findOne({ email: email.trim().toLowerCase() }).lean().exec();
+    return await User.create(newUser);
+  } catch (error) {
+    throw error;
+  }
+}
+
+const getUserByEmail = async (email, select = "") => {
+  try {
+    return await User.findOne({ email: email.trim().toLowerCase() }).select(select).lean().exec();
   } catch (error) {
     throw error;
   }
@@ -31,5 +41,6 @@ const getUserByEmail = async (email) => {
 
 module.exports = {
   createSuperAdmin,
+  createNewUser,
   getUserByEmail
 };
