@@ -1,6 +1,6 @@
 'use strict';
 const { isNull } = require('lodash');
-const { createNewUser, getUserByEmail } = require('../database/services/userServices');
+const { createNewUser: createUserService, getUserByEmail } = require('../database/services/userServices');
 const { BAD_REQUEST, OK, CREATED, UNAUTHORIZED, NOT_FOUND, INTERNAL_SERVER_ERROR } = require('http-status-codes');
 
 const createNewUser = async (req, res) => {
@@ -15,7 +15,7 @@ const createNewUser = async (req, res) => {
             userType: req.params.userType
         }
 
-        await createNewUser(newUser);
+        await createUserService(newUser);
 
         res.status(CREATED).json({ success: true, message: `User Created!` });
     } catch (error) {
@@ -43,8 +43,8 @@ const userLogin = async (req, res) => {
 
 const fetchUserDetails = async (req, res) => {
     try {
-        if (req.body.email) {
-            const user = await getUserByEmail(req.body.email);
+        if (req.params.email) {
+            const user = await getUserByEmail(req.params.email);
 
             if (isNull(user)) res.status(NOT_FOUND).json({ success: false, message: `User Not Found!` });
 
