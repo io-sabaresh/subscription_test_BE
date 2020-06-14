@@ -5,6 +5,6 @@ const { createNewUser, userLogin, fetchUserDetails } = require('../api/users');
 
 router.post('/signup/:userType', createNewUser);
 router.post('/login', userLogin);
-router.get('/user', fetchUserDetails);
+router.get('/email/:email', fetchUserDetails);
 
 module.exports = router;
