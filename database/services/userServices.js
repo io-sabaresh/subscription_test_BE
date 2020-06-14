@@ -39,8 +39,17 @@ const getUserByEmail = async (email, select = "") => {
   }
 };
 
+const updateUserByEmail = async (email, updates) => {
+  try {
+    return await User.findOneAndUpdate(email, updates, { new: true });
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createSuperAdmin,
   createNewUser,
-  getUserByEmail
+  getUserByEmail,
+  updateUserByEmail
 };

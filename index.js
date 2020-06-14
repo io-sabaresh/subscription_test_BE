@@ -4,6 +4,7 @@ const app = express();
 
 const cors = require('cors');
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const morgan = require("morgan");
 const router = require('./router/index');
 
@@ -25,6 +26,8 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+// parse cookies
+app.use(cookieParser())
 // Logger for requests
 app.use(morgan("dev"));
 // API Router
